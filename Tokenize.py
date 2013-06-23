@@ -85,13 +85,16 @@ def main():
 	for sentence in s:
 		chunks = sentence.chunks
 		for chunk in chunks:
-			tag, string = chunk.tag, chunk.string
+			tag, myString = chunk.tag, chunk.string
 			if tag == "NP":
 				no_adjective_string = removeAdjective(chunk)
 				no_adjective_string = formatString(no_adjective_string)
 				if len(no_adjective_string) > 0:
-					if not entities.has_key(no_adjective_string):
+					if sentence.string.__contains__("name") and not (no_adjective_string.lower() == "name"):
+						entities[no_adjective_string] = "Person"
+					elif not entities.has_key(no_adjective_string):
 						entities[no_adjective_string] = determineType(no_adjective_string,sentence) 
+						
 	for i,textfile in enumerate(textfile_names):
 		value = textfile_mappings[i]
 		writeOutput(textfile,entities,value)
