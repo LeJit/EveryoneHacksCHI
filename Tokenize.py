@@ -6,6 +6,9 @@ stopwords = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you',
 
 common_disasters = ["Fire","Flood","Microburst","Tornado","Home Damage","Carbon Monoxide","Gas Leak","Car crash","Building collapse","Roof collapse","Brushfire","Hazmat","Plane Crash","Weather","Mass Care","Canteen"]
 disaster_lexnames = ["noun.event","noun.act","noun.phenomenon"]
+textfile_names = ["Disaster.txt","IncidentAddress.txt","ClientName.txt"]
+textfile_names = ["/bootstrap/callData/"+filename for filename in textfile_names]
+textfile_mappings = ["Disaster","Location","Person"]
 
 def formatString(input):
 	formatted = [w for w in input.split() if not w.lower() in stopwords]
@@ -48,30 +51,35 @@ def isDisaster(word):
 	else:
 		return False
 
-def writeOutput(filename, nouns, entities):
+def determineType(noun,sentence):
+	if isDisaster(noun):
+		return "Disaster"
+	elif isPerson(noun):
+		return "Person"
+	elif findLocations(noun,sentence):
+		return "Location"
+	else:
+		return "Unknown"
+
+def writeOutput(filename, entities, value):
 	f = open(filename,"w+")
-	for noun in nouns:
-		if entities.has_key(noun):
-			f.write(noun+", "+entities[noun]+"\n")
-		elif isDisaster(noun):
-			f.write(noun+", Disaster\n")
-		elif isPerson(noun):
-			f.write(noun+", Person\n")
-		else:
-			f.write(noun+", Unknown\n")
+	for noun,typing in entities.iteritems():
+		if typing == value:
+			f.write(noun)
 	f.close()
 
-#Find locations using prepositional noun phrases (pnp)
-
-def findLocations(sentence):
+def findLocations(noun,sentence):
 	pnps = sentence.pnp
 	for chunk in pnps:
-
+		string = chunk.string.lower() 
+		if string.__contains__(noun.lower()):
+			return True
+	return False 
 
 
 def main():
-	text = "There is a fire on 1444 N Bosworth Avenue. I can hear a crying baby inside. His name is Deckard Cain"
-	nouns = []
+	text = "There is a flood on 1444 N Bosworth Avenue. I can hear a crying baby inside. His name is Deckard Cain"
+	entities = findEntities(text)
 	s = parsetree(text)
 	for sentence in s:
 		chunks = sentence.chunks
@@ -79,12 +87,13 @@ def main():
 			tag, string = chunk.tag, chunk.string
 			if tag == "NP":
 				no_adjective_string = removeAdjective(chunk)
-				nouns.append(no_adjective_string) 
-	nouns = [formatString(string) for string in nouns]
-	nouns = [string for string in nouns if len(string) > 0]
-	entities = findEntities(text)
-	writeOutput("firstTest.txt",nouns, entities)
-	
+				no_adjective_string = formatString(no_adjective_string)
+				if len(no_adjective_string) > 0:
+					if not entities.has_key(no_adjective_string):
+						entities[no_adjective_string] = determineType(no_adjective_string,sentence)
+	for i,textfile in enumerate(textfile_names):
+		value = textfile_mappings[i]
+		writeOutput(textfile,entities,value)
 
 if __name__ == '__main__':
 	main()

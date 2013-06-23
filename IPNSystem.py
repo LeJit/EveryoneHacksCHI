@@ -1,6 +1,8 @@
 from imapclient import IMAPClient
 import datetime
+import MySQLdb as MySQLdb
 
+con = mdb.connect("hostname","username","password","database")
 
 def accessEmail(username,password):
 	HOST = "pod51009.outlook.com"
@@ -22,11 +24,21 @@ def extractInformation(ipn_input):
     return data_dict
 
 
-def retrieveDatabaseValue(database_info,field):
-	# get 
+def retrieveDatabaseValue(database_info,field, condition_field, condition):
+	with con:
+		cur = con.cursor()
+		cur.execute("SET NAMES utf-8")
+		cur.execute("SET CHARACTER SET utf-8")
+		cur.execute("SET character_set_connection=utf-8")
 
-def updateDatabase(database_info,field, new_Value):
-
+		query = "SELECT %s from %s WHERE %s=%s" % (field,database_info,condition_field,condition)
+ 
+def updateDatabase(database_info,field, new_Value, condition_field, condition):
+	with con:
+		cur = con.cursor()
+		cur.execute("SET NAMES utf-8")
+		cur.execute("SET CHARACTER SET utf-8")
+		cur.execute("SET character_set_connection=utf-8")
 
 
 def findUpdates(data_dict):
