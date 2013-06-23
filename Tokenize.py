@@ -85,7 +85,7 @@ def writeOutput(filename, entities, value):
 	f.close()
 
 def main():
-	text = "There is a flood on 1444 N Bosworth Avenue. I can hear a crying baby inside. My name is Jit Nandi."
+	text = "There is a flood on 1444 N Bosworth Avenue. My name is Michael Jordan."
 	email = Gmail()
 	messages = email.readEmails(True)
 	entities = findEntities(text)
