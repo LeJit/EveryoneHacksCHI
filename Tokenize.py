@@ -3,6 +3,7 @@ from pattern.en import *
 from alchemy import Alchemy 
 import string 
 from gmail import Gmail
+import sys
 
 stopwords = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', 'her', 'hers', 'herself', 'it', 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now']
 
@@ -84,11 +85,15 @@ def writeOutput(filename, entities, value):
 			f.write(noun+"\n")
 	f.close()
 
-def main():
+def main(useDefault):
 	text = "There is a flood on 1444 N Bosworth Avenue. My name is Michael Jordan."
+	entities = findEntities(text)
 	email = Gmail()
 	messages = email.readEmails(True)
-	entities = findEntities(text)
+	if not useDefault:
+		text,time = messages[-1].split("|")
+		entities["Time"] = time 
+		
 	s = parsetree(text)
 
 	for sentence in s:
@@ -109,6 +114,11 @@ def main():
 		writeOutput(textfile,entities,value)
 
 if __name__ == '__main__':
-	main()
+	useDemo = sys.argv[1]
+	if useDemo == "Demo":
+		useDemo = True
+	else:
+		useDemo = False 
+	main(useDemo)
 
 
