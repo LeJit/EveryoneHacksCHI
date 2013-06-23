@@ -4,6 +4,9 @@ from alchemy import Alchemy
 
 stopwords = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', 'her', 'hers', 'herself', 'it', 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now']
 
+common_disasters = ["Fire","Flood","Microburst","Tornado","Home Damage","Carbon Monoxide","Gas Leak","Car crash","Building collapse","Roof collapse","Brushfire","Hazmat","Plane Crash","Weather","Mass Care","Canteen"]
+disaster_lexnames = ["noun.event","noun.act","noun.phenomenon"]
+
 def formatString(input):
 	formatted = [w for w in input.split() if not w.lower() in stopwords]
 	formatted = " ".join(formatted).upper()
@@ -29,14 +32,42 @@ def findEntities(text):
 		name_entities[name.upper()] = type_ent
 	return name_entities
 
+def isPerson(word):
+	synset = wordnet.synsets(word)
+	if len(synset) > 0:
+		synset = synset[0]
+		return synset.lexname == "noun.person"
+	else:
+		return False
+
+def isDisaster(word):
+	synset = wordnet.synsets(word)
+	if len(synset) > 0:
+		synset = synset[0]
+		return disaster_lexnames.__contains__(synset.lexname)
+	else:
+		return False
+
 def writeOutput(filename, nouns, entities):
 	f = open(filename,"w+")
 	for noun in nouns:
 		if entities.has_key(noun):
 			f.write(noun+", "+entities[noun]+"\n")
+		elif isDisaster(noun):
+			f.write(noun+", Disaster\n")
+		elif isPerson(noun):
+			f.write(noun+", Person\n")
 		else:
 			f.write(noun+", Unknown\n")
 	f.close()
+
+#Find locations using prepositional noun phrases (pnp)
+
+def findLocations(sentence):
+	pnps = sentence.pnp
+	for chunk in pnps:
+
+
 
 def main():
 	text = "There is a fire on 1444 N Bosworth Avenue. I can hear a crying baby inside. His name is Deckard Cain"
