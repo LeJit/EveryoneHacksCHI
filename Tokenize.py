@@ -7,7 +7,7 @@ stopwords = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you',
 common_disasters = ["Fire","Flood","Microburst","Tornado","Home Damage","Carbon Monoxide","Gas Leak","Car crash","Building collapse","Roof collapse","Brushfire","Hazmat","Plane Crash","Weather","Mass Care","Canteen"]
 disaster_lexnames = ["noun.event","noun.act","noun.phenomenon"]
 textfile_names = ["Disaster.txt","IncidentAddress.txt","ClientName.txt"]
-textfile_names = ["/bootstrap/callData/"+filename for filename in textfile_names]
+textfile_names = ["bootstrap/callData/"+filename for filename in textfile_names]
 textfile_mappings = ["Disaster","Location","Person"]
 
 def formatString(input):
@@ -65,7 +65,7 @@ def writeOutput(filename, entities, value):
 	f = open(filename,"w+")
 	for noun,typing in entities.iteritems():
 		if typing == value:
-			f.write(noun)
+			f.write(noun+"\n")
 	f.close()
 
 def findLocations(noun,sentence):
