@@ -9,9 +9,9 @@ stopwords = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you',
 
 common_disasters = ["Fire","Flood","Microburst","Tornado","Home Damage","Carbon Monoxide","Gas Leak","Car crash","Building collapse","Roof collapse","Brushfire","Hazmat","Plane Crash","Weather","Mass Care","Canteen"]
 disaster_lexnames = ["noun.event","noun.act","noun.phenomenon"]
-textfile_names = ["Disaster.txt","IncidentAddress.txt","ClientName.txt"]
+textfile_names = ["Disaster.txt","IncidentAddress.txt","Notifier.txt","Timestamp.txt"]
 textfile_names = ["bootstrap/callData/"+filename for filename in textfile_names]
-textfile_mappings = ["Disaster","Location","Person"]
+textfile_mappings = ["Disaster","Location","Person","Time"]
 
 
 #########################################
@@ -79,21 +79,22 @@ def findLocations(noun,sentence):
 #############################################
 ## Write to output files
 def writeOutput(filename, entities, value):
-	f = open(filename,"w+")
+	f = open(filename,"w")
 	for noun,typing in entities.iteritems():
 		if typing == value:
 			f.write(noun+"\n")
 	f.close()
 
 def main(useDefault):
-	text = "There is a flood on 1444 N Bosworth Avenue. My name is Michael Jordan."
-	entities = findEntities(text)
+	text = "There is a flood on 1444 N Bosworth Avenue. My name is Deckard Cain."
+	time = None
 	email = Gmail()
 	messages = email.readEmails(True)
 	if not useDefault:
 		text,time = messages[-1].split("|")
-		entities["Time"] = time 
-		
+	entities = findEntities(text)
+	if not time == None:
+		entities[time] = "Time"
 	s = parsetree(text)
 
 	for sentence in s:
@@ -104,11 +105,9 @@ def main(useDefault):
 				no_adjective_string = removeAdjective(chunk)
 				no_adjective_string = formatString(no_adjective_string)
 				if len(no_adjective_string) > 0:
-					if sentence.string.__contains__("name") and not (no_adjective_string.lower() == "name"):
-						entities[no_adjective_string] = "Person"
-					elif not entities.has_key(no_adjective_string):
+					if not entities.has_key(no_adjective_string):
 						entities[no_adjective_string] = determineType(no_adjective_string,sentence) 
-						
+
 	for i,textfile in enumerate(textfile_names):
 		value = textfile_mappings[i]
 		writeOutput(textfile,entities,value)
