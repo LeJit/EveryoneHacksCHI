@@ -123,7 +123,29 @@
           }
         }
         client8.send();
-
+		
+        count = 0;
+        var client9 = new XMLHttpRequest();
+        client9.open('GET', 'callData/Timestamp.txt');
+        client9.onreadystatechange = function() {
+          count = count + 1;
+          if(count > 2){
+            var string = client9.responseText;
+            var name_element = document.getElementById('Disaster_num');
+            name_element.value = genDisasterNumber();          
+          }
+        }
+        client9.send();
+		
+		function genDisasterNumber(){
+			if ( typeof genDisasterNumber.counter == 'undefined' ) {
+        		genDisasterNumber.counter = 198;
+			}
+			var year = "13";
+			var Id = (++genDisasterNumber.counter);
+			return (Id + "-"+year);
+		}
+		
 
     </script>
 
@@ -267,7 +289,7 @@ Initial Incident Report
 <div class="control-group">
   <label class="control-label">Disaster Relief #</label>
   <div class="controls">
-    <input id="Disaster_num" name="textinput" type="text" placeholder="Disaster Relief #" class="input-xlarge">
+    <input id="Disaster_num" name="Disaster_num" type="text" placeholder="Disaster Relief #" class="input-xlarge">
     
   </div>
 </div>
