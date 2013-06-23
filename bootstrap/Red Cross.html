@@ -9,20 +9,27 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="/Users/jay.lee/Downloads/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
       body {
         padding-top: 60px;
         padding-bottom: 40px;
       }
     </style>
-    <link href="/Users/jay.lee/Downloads/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <script src="scripts/jquery.js" type="text/javascript"></script>
+    <script src="scripts/jquery.loadJSON.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            $('form').loadJSON('callData/call.js');
+        });
+    </script>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="../assets/js/html5shiv.js"></script>
     <![endif]-->
-
+	
     <!-- Fav and touch icons -->
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
@@ -43,7 +50,7 @@ Initial Incident Report
 <div class="control-group">
   <label class="control-label">Dispatcher</label>
   <div class="controls">
-    <input id="textinput" name="textinput" type="text" placeholder="Dispatcher" class="input-xlarge">
+    <input id="Dispatcher" name="Dispatcher" type="text" placeholder="Dispatcher" class="input-xlarge">
     
   </div>
 </div>
@@ -52,7 +59,7 @@ Initial Incident Report
 <div class="control-group">
   <label class="control-label">Incident Address</label>
   <div class="controls">
-    <input id="textinput" name="textinput" type="text" placeholder="Address" class="input-xlarge">
+    <input id="IncidentAddress" name="IncidentAddress" type="text" placeholder="Address" class="input-xlarge">
     
   </div>
 </div>
@@ -61,7 +68,7 @@ Initial Incident Report
 <div class="control-group">
   <label class="control-label">City</label>
   <div class="controls">
-    <input id="textinput" name="textinput" type="text" placeholder="City" class="input-xlarge">
+    <input id="City" name="City" type="text" placeholder="City" class="input-xlarge">
     
   </div>
 </div>
@@ -70,7 +77,7 @@ Initial Incident Report
 <div class="control-group">
   <label class="control-label">State</label>
   <div class="controls">
-    <input id="textinput" name="textinput" type="text" placeholder="State" class="input-xlarge">
+    <input id="State" name="textinput" type="text" placeholder="State" class="input-xlarge">
     
   </div>
 </div>
@@ -79,7 +86,9 @@ Initial Incident Report
 <div class="control-group">
   <label class="control-label">Zip Code</label>
   <div class="controls">
-    <input id="textinput" name="textinput" type="text" placeholder="Zip Code" class="input-xlarge">
+	
+	<input id="Zip" name="textinput" type="text" placeholder="Zip Code" class="input-xlarge">;
+	
     
   </div>
 </div>
@@ -88,7 +97,7 @@ Initial Incident Report
 <div class="control-group">
   <label class="control-label">Notified By</label>
   <div class="controls">
-    <input id="textinput" name="textinput" type="text" placeholder="Notified by" class="input-xlarge">
+    <input id="County" name="textinput" type="text" placeholder="Notified by" class="input-xlarge">
     
   </div>
 </div>
@@ -97,7 +106,7 @@ Initial Incident Report
 <div class="control-group">
   <label class="control-label">Notification Timestamp</label>
   <div class="controls">
-    <input id="textinput" name="textinput" type="text" placeholder="Timestamp" class="input-xlarge">
+    <input id="NotificationTimestamp" name="textinput" type="text" placeholder="Timestamp" class="input-xlarge">
     
   </div>
 </div>
@@ -146,8 +155,7 @@ Initial Incident Report
 <div class="control-group">
   <label class="control-label">Type of Disaster</label>
   <div class="controls">
-    <input id="textinput" name="textinput" type="text" placeholder="Type of Disaster" class="input-xlarge">
-    
+    <input id="DisasterType" name="textinput" type="text" placeholder="Disaster Type" class="input-xlarge">
   </div>
 </div>
 
@@ -155,7 +163,7 @@ Initial Incident Report
 <div class="control-group">
   <label class="control-label">Incident Timestamp</label>
   <div class="controls">
-    <input id="textinput" name="textinput" type="text" placeholder="Incident Timestamp" class="input-xlarge">
+    <input id="IncidentTimestamp" name="textinput" type="text" placeholder="Incident Timestamp" class="input-xlarge">
     
   </div>
 </div>
@@ -164,7 +172,7 @@ Initial Incident Report
 <div class="control-group">
   <label class="control-label">Disaster Relief #</label>
   <div class="controls">
-    <input id="textinput" name="textinput" type="text" placeholder="Disaster Relief #" class="input-xlarge">
+    <input id="Disaster_num" name="textinput" type="text" placeholder="Disaster Relief #" class="input-xlarge">
     
   </div>
 </div>
@@ -185,6 +193,8 @@ Initial Incident Report
 </div>
 </fieldset>
 </form>
+
  
 </body>  
 </html>
+

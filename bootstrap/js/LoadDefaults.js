@@ -13,6 +13,9 @@ $(document).ready(function() {
 	$("Disaster_num").val(genDisNum()); <!-- this should probably by tracked by a variable on login then incremented for each call, then saved back on logout-->
 	
 });
+</script>
+
+<script>
 
 function genDisNum() {
     // Check to see if the counter has been initialized
