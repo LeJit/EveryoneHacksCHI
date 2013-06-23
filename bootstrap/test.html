@@ -1,0 +1,29 @@
+<html>
+<head>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.js"></script>
+<script type="text/javascript">
+
+    function download_to_textbox(url, el)
+    {
+      $.get(url, null, function(data)
+                       {
+                         el.val(data);
+                       }, "text");
+    }
+
+    $(function()
+    {
+      $('#open').click(function()
+      {
+        download_to_textbox("callData/city.txt", $("textarea[name='text']"));
+      });
+    });
+</script>
+</head>
+<body>
+    <form name="abc">
+        <textarea name="text" rows="20" cols="70">loaded text here</textarea>
+        <input id="open" value="open" type="button">
+    </form>
+</body>
+</html>

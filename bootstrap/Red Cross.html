@@ -16,13 +16,117 @@
         padding-bottom: 40px;
       }
     </style>
-    <script src="scripts/jquery.js" type="text/javascript"></script>
-    <script src="scripts/jquery.loadJSON.js" type="text/javascript"></script>
+    <script src="js/jquery.js" type="text/javascript"></script>
+    <script src="js/jquery.loadJSON.js" type="text/javascript"></script>
     <script language="javascript" type="text/javascript">
-        $(document).ready(function () {
-            $('form').loadJSON('callData/call.js');
-        });
+        var client = new XMLHttpRequest();
+        var count = 0;
+        
+        client.open('GET', 'callData/City.txt');
+        client.onreadystatechange = function() {
+          count = count + 1;
+          if(count > 2){
+            var string = client.responseText;   
+            var name_element = document.getElementById('City');
+            name_element.value = string;          
+          }
+        }
+        client.send();
+
+        count = 0;
+        var client2 = new XMLHttpRequest();
+        client2.open('GET', 'callData/Disaster.txt');
+        client2.onreadystatechange = function() {
+          count = count + 1;
+          if(count > 2){
+            var string = client2.responseText;
+            var name_element = document.getElementById('DisasterType');
+            name_element.value = string;          
+          }
+        }
+        client2.send();
+
+        count = 0;
+        var client3 = new XMLHttpRequest();
+        client3.open('GET', 'loginData/login.txt');
+        client3.onreadystatechange = function() {
+          count = count + 1;
+          if(count > 2){
+            var string = client3.responseText;
+            var name_element = document.getElementById('Dispatcher');
+            name_element.value = string;          
+          }
+        }
+        client3.send();
+
+        count = 0;
+        var client4 = new XMLHttpRequest();
+        client4.open('GET', 'callData/IncidentAddress.txt');
+        client4.onreadystatechange = function() {
+          count = count + 1;
+          if(count > 2){
+            var string = client4.responseText;
+            var name_element = document.getElementById('IncidentAddress');
+            name_element.value = string;          
+          }
+        }
+        client4.send();
+
+        count = 0;
+        var client5 = new XMLHttpRequest();
+        client5.open('GET', 'callData/Zip.txt');
+        client5.onreadystatechange = function() {
+          count = count + 1;
+          if(count > 2){
+            var string = client5.responseText;
+            var name_element = document.getElementById('Zip');
+            name_element.value = string;          
+          }
+        }
+        client5.send();
+
+        count = 0;
+        var client6 = new XMLHttpRequest();
+        client6.open('GET', 'callData/Notifier.txt');
+        client6.onreadystatechange = function() {
+          count = count + 1;
+          if(count > 2){
+            var string = client6.responseText;
+            var name_element = document.getElementById('Notifier');
+            name_element.value = string;          
+          }
+        }
+        client6.send();
+
+        count = 0;
+        var client7 = new XMLHttpRequest();
+        client7.open('GET', 'callData/State.txt');
+        client7.onreadystatechange = function() {
+          count = count + 1;
+          if(count > 2){
+            var string = client7.responseText;
+            var name_element = document.getElementById('State');
+            name_element.value = string;          
+          }
+        }
+        client7.send();
+
+        count = 0;
+        var client8 = new XMLHttpRequest();
+        client8.open('GET', 'callData/Timestamp.txt');
+        client8.onreadystatechange = function() {
+          count = count + 1;
+          if(count > 2){
+            var string = client8.responseText;
+            var name_element = document.getElementById('NotificationTimestamp');
+            name_element.value = string;          
+          }
+        }
+        client8.send();
+
+
     </script>
+
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -39,7 +143,7 @@
   </head>
 
 <body>  
-<form class="form-horizontal">
+<form class="form-horizontal" id = "MyForm">
 <fieldset>
 <!-- Form Name -->
 <legend> <img src="http://www.clevelandart.org/sites/default/files/wp-content/uploads/2010/08/blood2.png" alt="some_text" width="100" height="100"> 
@@ -87,7 +191,7 @@ Initial Incident Report
   <label class="control-label">Zip Code</label>
   <div class="controls">
 	
-	<input id="Zip" name="textinput" type="text" placeholder="Zip Code" class="input-xlarge">;
+	<input id="Zip" name="textinput" type="text" placeholder="Zip Code" class="input-xlarge">
 	
     
   </div>
@@ -97,7 +201,7 @@ Initial Incident Report
 <div class="control-group">
   <label class="control-label">Notified By</label>
   <div class="controls">
-    <input id="County" name="textinput" type="text" placeholder="Notified by" class="input-xlarge">
+    <input id="Notifier" name="textinput" type="text" placeholder="Notified by" class="input-xlarge">
     
   </div>
 </div>
@@ -161,15 +265,6 @@ Initial Incident Report
 
 <!-- Text input-->
 <div class="control-group">
-  <label class="control-label">Incident Timestamp</label>
-  <div class="controls">
-    <input id="IncidentTimestamp" name="textinput" type="text" placeholder="Incident Timestamp" class="input-xlarge">
-    
-  </div>
-</div>
-
-<!-- Text input-->
-<div class="control-group">
   <label class="control-label">Disaster Relief #</label>
   <div class="controls">
     <input id="Disaster_num" name="textinput" type="text" placeholder="Disaster Relief #" class="input-xlarge">
@@ -177,14 +272,6 @@ Initial Incident Report
   </div>
 </div>
 
-<!-- Text input-->
-<div class="control-group">
-  <label class="control-label">Case Incident ID</label>
-  <div class="controls">
-    <input id="textinput" name="textinput" type="text" placeholder="Case ID" class="input-xlarge">
-    
-  </div>
-</div>
 
 <div class="btn-toolbar pagination-centered">
   <div class="btn-group">
